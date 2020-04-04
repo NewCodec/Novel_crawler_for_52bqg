@@ -230,7 +230,8 @@ def showSearchRes(search_res_table):
                 show_once_num = unshowed_num
             for i in range(show_once_num):
                 print(str(showing_num)+search_res_table[showing_num][0]+'\t'+ \
-                        search_res_table[showing_num][1]+'\t'+search_res_table[showing_num][3])
+                        search_res_table[showing_num][1]+'\t'+search_res_table[showing_num][3]+ \
+                        '  \t'+search_res_table[showing_num][2])
                 showing_num+=1
             unshowed_num=unshowed_num-show_once_num
             choice=input("接下来您要：")
