@@ -246,24 +246,26 @@ def showSearchRes(search_res_table):
                     print("您输入的序号不是数字，退出")
                     exit(1)
                 c_num=int(c_num)
-                return search_res_table[c_num][2]
+                return c_num
             elif choice==3 :
                 show_en=False
+                print("结束")
+                exit(1)
             else:
                 print("不支持的功能，结束")
                 show_en=False
-                return ' '
+                return rc
             if unshowed_num <=0:
                 print("全部显示完")
                 unshowed_num=0
-    return ''
+    return rc
 
 if args.search != '' :
     print("您选择了搜索:"+args.search)
     search_key=str(args.search)
     NovelSearch(search_key)
-    showSearchRes(search_res_table)
-    print('你选择了'+search_res_table[c_num][1]+'\t下载链接'+search_res_table[c_num][2])
+    num_c=showSearchRes(search_res_table)
+    print('你选择了'+search_res_table[num_c][1]+'\t下载链接'+search_res_table[num_c][2])
     print("您可以通过-d + 链接 的方式直接下载小说")
 elif args.search_download != '' :
     print("您选择了搜索[%s]和下载" % args.search_download)
