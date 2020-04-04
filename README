@@ -2,6 +2,14 @@
 你可以通过help获取使用方法
 python Novel_crawler_for_52bqg.py -h
 
+运行环境依赖
+1. 安装python, 下载网址：https://www.python.org/downloads/
+2. 安装python后，执行下面命令安装库
+        pip install requests
+        pip install bs4
+3. python Novel_crawler_for_52bqg.py -h 查看使用帮助
+
+
 2020.04.04
 实现的功能
 1. 下载指定小说，需要提供首页链接地址
