@@ -1,6 +1,10 @@
 这是一个从笔趣阁下载小说的脚本
+
+如果运行中有任何问题，请联系jiuchun_0323@163.com
+
 你可以通过help获取使用方法
 python Novel_crawler_for_52bqg.py -h
+python Novel_crawler_for_52bqg_v2.py -h
 
 运行环境依赖
 1. 安装python, 下载网址：https://www.python.org/downloads/
@@ -16,3 +20,24 @@ python Novel_crawler_for_52bqg.py -h
 2. 实现搜索，将搜索结果保持在文件中
 3. 根据搜索结果下载指定小说
 4. 目前，下载是单线程的，速度有点慢
+
+
+Novel_crawler_for_52bqg_v2
+2020.04.04
+新增多线程实现方式：Novel_crawler_for_52bqg_v2.py
+
+使用方法
+1.帮助：
+    python Novel_crawler_for_52bqg_v2.py -h
+2.搜索：
+    python Novel_crawler_for_52bqg_v2.py -s <关键词>
+    搜索会返回一个下载地址，您可以根据这个下载地址通过下载功能下载
+2.下载
+    python Novel_crawler_for_52bqg_v2.py -d <下载地址>
+3.搜索和下载
+    python Novel_crawler_for_52bqg_v2.py -a <关键词>
+    显示搜索结果，根据提示选择下载小说下载
+
+注意事项
+1.如果网络差总是下载失败，可以考虑使用单线程的脚本
+2.如果运行中有任何问题，请联系jiuchun_0323@163.com
