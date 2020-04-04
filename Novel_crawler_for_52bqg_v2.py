@@ -157,6 +157,7 @@ def NovelSearch(searchStr):
                 hf=open(history_file_name,'wb+')
                 hf.write(save_his.encode('utf-8'))
                 hf.close()
+                search_res_table.append(("无类别",novel_name,novel_link,novel_writer))
             else:
                 print("href error")
         else:
@@ -251,6 +252,7 @@ def showSearchRes(search_res_table):
             else:
                 print("不支持的功能，结束")
                 show_en=False
+                return ' '
             if unshowed_num <=0:
                 print("全部显示完")
                 unshowed_num=0
@@ -271,8 +273,6 @@ elif args.search_download != '' :
         print("获取小说主页失败")
         exit(1)
     Dowloading(GetAllLinkFromHome(Home),LinkFromHome,200)
-
-
 elif args.download != '' :
     print("您选择了下载:"+args.download)
     if len(args.download)<27 or args.download[0:27] != r"https://www.52bqg.com/book_":
