@@ -127,6 +127,7 @@ def Dowloading(novel_name,link_list,thread_num_max):
 search_res_table=[]
 history_file_name = 'history_file'
 def NovelSearch(searchStr):
+    rc = 0
     search_res_table.clear()
     print("开始搜索："+searchStr)
     searchStr = searchStr.encode('gb2312')
@@ -150,7 +151,7 @@ def NovelSearch(searchStr):
                 novel_name= soup.select('body .box_con #maininfo #info h1')[0].text
                 novel_writer=soup.select('body .box_con #maininfo #info p a')[0].text
                 novel_link = one
-                print("只有一本符合")
+                #print("只有一本符合")
                 save_his = "num:1"+";"+"name:"+novel_name+";"+"writer:"+novel_writer \
                     +";"+"link:"+novel_link+";"+"\t\n"
                 print("1 【 无类别 】\t"+novel_name+'\t'+'作者：'+novel_writer)
@@ -158,11 +159,12 @@ def NovelSearch(searchStr):
                 hf.write(save_his.encode('utf-8'))
                 hf.close()
                 search_res_table.append(("无类别",novel_name,novel_link,novel_writer))
+                rc = 1
             else:
                 print("href error")
         else:
             print("no result")
-        return
+        return rc
     Search_res_page_num=int(Search_res_page[0].text)
     for pages in range(Search_res_page_num):
         if 0==pages :
@@ -184,9 +186,10 @@ def NovelSearch(searchStr):
             novel_link = Span_i[1].a['href']
             novel_writer=Span_i[3].text
             search_res_table.append((novel_class,novel_name,novel_link,novel_writer))
+    rc = len(search_res_table)
     hf=open(history_file_name,'wb+')
-    if len(search_res_table) >20 :
-        print("搜索结果太多，只显示一部分，跟多结果，请查阅文件")
+    if rc >20 :
+        print("搜索结果共有%d，只显示一部分，跟多结果，请查阅文件" % rc)
     for i in range(len(search_res_table)):
         novel_class,novel_name,novel_link,novel_writer=search_res_table[i]
         save_his = "num:"+str(i+1)+";"+"name:"+novel_name+";"+"writer:"+novel_writer \
@@ -194,6 +197,7 @@ def NovelSearch(searchStr):
         hf.write(save_his.encode('utf-8'))
     hf.close()
     print("搜索完成，您可以在搜索结果保存在："+history_file_name)
+    return rc
 
 def ReadLinkFromHistory(history_file_name,his_num):
     if not os.path.isfile(history_file_name):
@@ -211,6 +215,8 @@ def ReadLinkFromHistory(history_file_name,his_num):
         return ''
 
 #(novel_class,novel_name,novel_link,novel_writer)
+# return -1 means no result
+# return other numbers means the one have been choosed
 def showSearchRes(search_res_table):
     rc = -1
     res_table_len=len(search_res_table)
@@ -219,6 +225,7 @@ def showSearchRes(search_res_table):
     showing_num = 0
     unshowed_num = res_table_len
     if res_table_len != 0:
+            
         print("----------------------")
         print("功能显示：")
         print("1，下一搜索页")
@@ -234,6 +241,9 @@ def showSearchRes(search_res_table):
                         '  \t'+search_res_table[showing_num][2])
                 showing_num+=1
             unshowed_num=unshowed_num-show_once_num
+            if res_table_len == 1:
+                rc = 0
+                return rc
             choice=input("接下来您要：")
             if not choice.isdigit():
                 print("您输入的功能不是数字，退出")
@@ -266,17 +276,20 @@ def showSearchRes(search_res_table):
 if args.search != '' :
     print("您选择了搜索:"+args.search)
     search_key=str(args.search)
-    NovelSearch(search_key)
+    Novel_num = NovelSearch(search_key)
     num_c=showSearchRes(search_res_table)
     if -1 == num_c:
         exit(1)
-    print('你选择了'+search_res_table[num_c][1]+'\t下载链接'+search_res_table[num_c][2])
+    if Novel_num == 1:
+        print('\n只有一本：'+search_res_table[num_c][1]+'\t下载链接'+search_res_table[num_c][2])
+    else:
+        print('你选择了'+search_res_table[num_c][1]+'\t下载链接'+search_res_table[num_c][2])
     print("您可以通过-d + 链接 的方式直接下载小说")
 elif args.search_download != '' :
     print("您选择了搜索[%s]和下载" % args.search_download)
     NovelSearch(args.search_download)
-    Home_link=showSearchRes(search_res_table)
-    if Home_link == -1:
+    num_c=showSearchRes(search_res_table)
+    if num_c == -1:
         print("获取小说主页失败")
         exit(1)
     Dowloading(GetAllLinkFromHome(Home),LinkFromHome,200)
