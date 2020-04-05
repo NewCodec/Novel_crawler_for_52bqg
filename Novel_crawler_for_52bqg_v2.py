@@ -259,6 +259,8 @@ def showSearchRes(search_res_table):
             if unshowed_num <=0:
                 print("全部显示完")
                 unshowed_num=0
+    else:
+        print("网站没有符合关键词的小说，请您缩小关键词再试")
     return rc
 
 if args.search != '' :
@@ -266,13 +268,15 @@ if args.search != '' :
     search_key=str(args.search)
     NovelSearch(search_key)
     num_c=showSearchRes(search_res_table)
+    if -1 == num_c:
+        exit(1)
     print('你选择了'+search_res_table[num_c][1]+'\t下载链接'+search_res_table[num_c][2])
     print("您可以通过-d + 链接 的方式直接下载小说")
 elif args.search_download != '' :
     print("您选择了搜索[%s]和下载" % args.search_download)
     NovelSearch(args.search_download)
     Home_link=showSearchRes(search_res_table)
-    if Home_link == '':
+    if Home_link == -1:
         print("获取小说主页失败")
         exit(1)
     Dowloading(GetAllLinkFromHome(Home),LinkFromHome,200)
