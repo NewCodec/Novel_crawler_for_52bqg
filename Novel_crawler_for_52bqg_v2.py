@@ -7,6 +7,7 @@ import threading
 import urllib.parse
 import argparse
 import time
+import os
 
 parser = argparse.ArgumentParser(description="从笔趣网下载小说")
 group = parser.add_mutually_exclusive_group()
@@ -122,6 +123,7 @@ def Dowloading(novel_name,link_list,thread_num_max):
         download_index=thread_num+download_index
     fp.close()
     print("下载完成：尽情享受阅读吧")
+    print("小说保存在："+os.path.abspath('.')+'\\'+novel_name+'.txt\n')
     return
 
 search_res_table=[]
