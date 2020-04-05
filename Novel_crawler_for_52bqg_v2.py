@@ -14,8 +14,8 @@ group = parser.add_mutually_exclusive_group()
 group.add_argument("-d", "--download", type=str, default='',help="download novel,need give the url")
 group.add_argument("-s", "--search", type=str, default='',help="search novel from 52bgg,give keywords")
 group.add_argument("-a", "--search_download", type=str, default='',help="from 52bgg,give keywords")
+group.add_argument("-th", "--thh", type=int, default=100,choices=[50,100,200,400],help="from 52bgg,give keywords")
 args = parser.parse_args()
-
 
 headers={
 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -27,6 +27,7 @@ headers={
 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"
 }
 
+DOWNLOAD_THREAD_MAX = args.thh
 
 Home='https://www.52bqg.com/book_4468/'
 LinkFromHome=[]
@@ -65,7 +66,7 @@ def ReadOneSection(section_link):
     soup=BeautifulSoup(response.text,"html.parser")
     section_name=soup.select('#wrapper .content_read #box_con .bookname h1')
     if len(section_name)==0:
-        print("s_link")
+        print(section_link)
     else:
         section_name=section_name[0]
     section_text=soup.select('#wrapper .content_read #box_con #content')[0]
@@ -294,13 +295,13 @@ elif args.search_download != '' :
     if num_c == -1:
         print("获取小说主页失败")
         exit(1)
-    Dowloading(GetAllLinkFromHome(Home),LinkFromHome,200)
+    Dowloading(GetAllLinkFromHome(Home),LinkFromHome,DOWNLOAD_THREAD_MAX)
 elif args.download != '' :
     print("您选择了下载:"+args.download)
     if len(args.download)<27 or args.download[0:27] != r"https://www.52bqg.com/book_":
         print("您输入了错误的网址，退出")
         exit(1)
-    Dowloading(GetAllLinkFromHome(args.download),LinkFromHome,200)
+    Dowloading(GetAllLinkFromHome(args.download),LinkFromHome,DOWNLOAD_THREAD_MAX)
 else:
     print("您什么也没有选择，退出")
     exit(1)
