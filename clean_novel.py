@@ -1,4 +1,5 @@
 
+import os
 bqg_key_lines=('	一秒记住【笔趣阁','	www.52bqg.com】，精彩小说无弹窗免费阅读！')
 bgq_key_words='<strong>最新章节全文阅读</strong>'
 
@@ -43,8 +44,10 @@ def NovelClean(Novel_name,bqg_key_lines,bgq_key_words):
             if need_clean == False:
                 fp.write(line)
         fp.close()
+    os.remove(Novel_name)
+    os.rename('c_'+Novel_name,Novel_name)
     print("清理完成")
     
 
 if __name__ == '__main__':
-    NovelClean('test.txt',bqg_key_lines,bgq_key_words)
+    NovelClean('完美世界.txt',bqg_key_lines,bgq_key_words)
