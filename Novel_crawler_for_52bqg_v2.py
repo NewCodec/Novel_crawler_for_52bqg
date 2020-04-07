@@ -14,7 +14,7 @@ group = parser.add_mutually_exclusive_group()
 group.add_argument("-d", "--download", type=str, default='',help="download novel,need give the url")
 group.add_argument("-s", "--search", type=str, default='',help="search novel from 52bgg,give keywords")
 group.add_argument("-a", "--search_download", type=str, default='',help="from 52bgg,give keywords")
-group.add_argument("-th", "--thh", type=int, default=100,choices=[50,100,200,400],help="from 52bgg,give keywords")
+parser.add_argument("-th", "--thh", type=int, default=100,choices=[50,100,200,400],help="from 52bgg,give keywords")
 args = parser.parse_args()
 
 headers={
