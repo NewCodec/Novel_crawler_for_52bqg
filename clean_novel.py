@@ -1,7 +1,7 @@
 
 import os
-bqg_key_lines=('	一秒记住【笔趣阁','	www.52bqg.com】，精彩小说无弹窗免费阅读！')
-bgq_key_words='<strong>最新章节全文阅读</strong>'
+#bqg_key_lines=('	一秒记住【笔趣阁','	www.52bqg.com】，精彩小说无弹窗免费阅读！')
+#bgq_key_words='<strong>最新章节全文阅读</strong>'
 
 #str2 较短
 #如果str1中有str2，则删除，否则什么也不做
@@ -28,7 +28,7 @@ def StringByteDelete(str1,str2):
     return str1
 
 def NovelClean(Novel_name,bqg_key_lines,bgq_key_words):
-    print("开始清理"+Novel_name)
+    print("开始执行一些清理....")
     keywords_len = len(bqg_key_lines)
     with open(Novel_name,'rb') as nf:
         fp = open('c_'+Novel_name,'wb')
@@ -46,8 +46,8 @@ def NovelClean(Novel_name,bqg_key_lines,bgq_key_words):
         fp.close()
     os.remove(Novel_name)
     os.rename('c_'+Novel_name,Novel_name)
-    print("清理完成")
+    print("清理完成...")
     
 
 if __name__ == '__main__':
-    NovelClean('完美世界.txt',bqg_key_lines,bgq_key_words)
+    NovelClean('最强小神医.txt',bqg_key_lines,bgq_key_words)
