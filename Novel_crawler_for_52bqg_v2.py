@@ -16,6 +16,7 @@ group.add_argument("-d", "--download", type=str, default='',help="download novel
 group.add_argument("-s", "--search", type=str, default='',help="search novel from 52bgg,give keywords")
 group.add_argument("-a", "--search_download", type=str, default='',help="from 52bgg,give keywords")
 parser.add_argument("-th", "--thh", type=int, default=100,choices=[50,100,200,400],help="from 52bgg,give keywords")
+parser.add_argument("-c", "--clean", action = 'store_true',help="from 52bgg,give keywords")
 args = parser.parse_args()
 
 headers={
@@ -277,6 +278,7 @@ def showSearchRes(search_res_table):
         print("网站没有符合关键词的小说，请您缩小关键词再试")
     return rc
 
+
 if __name__=='__main__':
     bqg_key_lines=('	一秒记住【笔趣阁','	www.52bqg.com】，精彩小说无弹窗免费阅读！')
     bgq_key_words='<strong>最新章节全文阅读</strong>'
@@ -301,7 +303,8 @@ if __name__=='__main__':
             exit(1)
         Novel_name_d = GetAllLinkFromHome(search_res_table[num_c][2])
         Dowloading(Novel_name_d,LinkFromHome,DOWNLOAD_THREAD_MAX)
-        clean_novel.NovelClean(Novel_name_d+'.txt',bqg_key_lines,bgq_key_words)
+        if args.clean :
+            clean_novel.NovelClean(Novel_name_d+'.txt',clean_novel.bqg_key_lines,clean_novel.bgq_key_words)
     elif args.download != '' :
         print("您选择了下载:"+args.download)
         if len(args.download)<27 or args.download[0:27] != r"https://www.52bqg.com/book_":
@@ -309,7 +312,8 @@ if __name__=='__main__':
             exit(1)
         Novel_name_d = GetAllLinkFromHome(args.download)
         Dowloading(Novel_name_d,LinkFromHome,DOWNLOAD_THREAD_MAX)
-        clean_novel.NovelClean(Novel_name_d+'.txt',bqg_key_lines,bgq_key_words)
+        if args.clean :
+            clean_novel.NovelClean(Novel_name_d+'.txt',clean_novel.bqg_key_lines,clean_novel.bgq_key_words)
     else:
         print("您什么也没有选择，退出")
         exit(1)
