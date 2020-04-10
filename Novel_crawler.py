@@ -17,7 +17,88 @@ group.add_argument("-a", "--search_download", type=str, default='',help="from 52
 group.add_argument("-th", "--thh", type=int, default=100,choices=[50,100,200,400],help="from 52bgg,give keywords")
 args = parser.parse_args()
 
-'''
+# 定义一个类，可以下载所有的小说：
+# 传入的参数：
+#1. headers [Host different]
+#2. slink[是一个方法，输入【关键词】，输出【输出符合关键词的结果主页地址列表】] 
+#3. getLink[方法： 输入【主页面链接】，输出【小说的名字，各个章节的链接列表】]
+#4. getSection --方法：输入【页面链接】，输出【章节名字，章节内容】
+
+
+class NovelDownload(object)
+
+		def __init__(self, header, slink, getLink, getSection, arg):
+			self.header = header
+			self.slink = slink
+			self.getLink = getLink
+			self,getSection = getSection
+			self.lock = threading.RLock()
+			self.args =arg
+			self.linklist = []
+		
+		def SearchNovel(self, searchStr):
+			slinklist = self.slink(searchStr)
+			for ll in slinklist
+				self.linklist.append(ll)
+			return
+		
+		#get all the section link save as nlinklist	
+		def GetLink(self,main_link):
+			name,nlinklist = self.getLink(main_link)
+			return name,nlinklist
+			
+		def GetSection(self,page_link,page_num,page_contens_dic):
+			name,text = self.getSection(page_link)
+	    lock.acquire()
+	    page_contens_dic.update({page_num:(name,text)})
+	    lock.release()
+			return (page_num,name,contents)
+		
+		def Download(self, main_link，thread_num):
+			name,nlinklist=self.GetLink(main_link)	
+			nlistlist_len = len(nlinklist)
+			page_contens_dic = {}
+			threads = []
+			downloading_num = thread_num if thread_num<nlistlist_len else nlistlist_len
+			downloaded_num = 0
+			need_download_num = nlistlist_len
+			
+			with open(name+'.txt',"wb") as filebook
+				while need_download_num > 0
+					for i in range(downloading_num):
+						thread = threading.Thread(target = self.GetSection,args=(nlinklist,downloaded_num+i,page_contens_dic))
+						threads.append(thread)
+					for i in range(downloading_num):
+	          threads[i].start()
+	        for i in range(downloading_num):
+	          threads[i].join()
+					for i in range(downloaded_num,downloaded_num+thread_num,1):
+						page_name,page_text = page_contens_dic.get(i)
+						filebook.write(page_name.encoding('utf-8'))
+						filebook.write(page_text.encoding('utf-8'))
+					need_download_num -= downloading_num
+					downloaded_num += downloading_num
+					
+					if need_download_num < thread_num:
+						downloading_num = need_download_num
+					else:
+						downloading_num=thread_num
+				
+		def do_it(self):
+			if self.args.download != '':
+				self.Download(self.args.download,self.args.th)
+			elif self.args.search !='':
+				self.SearchNovel(self.args.search)
+			elif self.args.search_download != '':
+				self.SearchNovel(self.args.search_download)
+				a = input("你选中的序号是：")
+				self.Download(self.linklist[int(a)],self.args.th)
+				
+				
+				
+				
+		
+
 headers={
 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
 "Accept-Encoding": "gzip, deflate, br",
@@ -28,24 +109,6 @@ headers={
 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"
 }
 
-headers={
-'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-'Accept-Encoding':'gzip, deflate',
-'Accept-Language':'zh-CN,zh;q=0.9',
-'Cache-Control':'max-age=0',
-'Connection':'keep-alive',
-'Cookie':'Hm_lvt_bd5269f96a54ed3c6d9fbd891d69b471=1586186557; Hm_lvt_8a3dc59dadb01c39ef267894e14db3de=1586186557; security_session_verify=bde00458361f82c6f8d5ff61bc079117; jieqiVisitTime=jieqiArticlesearchTime%3D1586186574; Hm_lpvt_8a3dc59dadb01c39ef267894e14db3de=1586187161; Hm_lpvt_bd5269f96a54ed3c6d9fbd891d69b471=1586187161',
-'Host': 'www.biquge.tv',
-'If-None-Match': '1586186873|',
-'Upgrade-Insecure-Requests': '1',
-'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
-}
-
-DOWNLOAD_THREAD_MAX = args.thh
-
-Home='https://www.52bqg.com/book_4468/'
-LinkFromHome=[]
-contents={}
 def GetAllLinkFromHome(home):
     print("开始解析下载链接...")
     try:
@@ -90,7 +153,7 @@ def ReadOneSection(section_link):
     section_text=re.sub( '\s+', '\r\n\t', section_text.text).strip('\r\n')
     return (str(section_name.text),section_text)
 
-lock = threading.RLock()
+
 def threadGetSections(link_list,download_num):
     name,text=('null','内容下载失败')
     retry=5
