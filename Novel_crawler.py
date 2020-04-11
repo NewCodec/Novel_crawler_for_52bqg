@@ -9,13 +9,14 @@ import argparse
 import time
 import os
 import paliberg as pbg
-
+import clean_novel as cn
 parser = argparse.ArgumentParser(description="从笔趣网下载小说")
 group = parser.add_mutually_exclusive_group()
 group.add_argument("-d", "--download", type=str, default='',help="download novel,need give the url")
 group.add_argument("-s", "--search", type=str, default='',help="search novel from 52bgg,give keywords")
 group.add_argument("-a", "--search_download", type=str, default='',help="from 52bgg,give keywords")
-group.add_argument("-th", "--thh", type=int, default=10,choices=[50,100,200,400],help="from 52bgg,give keywords")
+parser.add_argument("-th", "--thh", type=int, default=50,choices=[50,100,200,400],help="from 52bgg,give keywords")
+parser.add_argument("-c", "--clean", action = 'store_true',help="from 52bgg,give keywords")
 args = parser.parse_args()
 
 # 定义一个类，可以下载所有的小说：
@@ -28,14 +29,16 @@ args = parser.parse_args()
 
 class NovelDownload(object):
 
-		def __init__(self, header, slink, getLink, getSection, arg):
-			self.header = header
-			self.slink = slink
-			self.getLink = getLink
-			self.getSection = getSection
+		def __init__(self, src, arg):
+			self.header = src.Header
+			self.slink = src.slink
+			self.getLink = src.getLink
+			self.getSection = src.getSection
 			self.lock = threading.RLock()
 			self.args =arg
 			self.linklist = []
+			self.clean = src.clean
+			self.name = ''
 		
 		def SearchNovel(self, searchStr):
 			slinklist = self.slink(searchStr)
@@ -46,6 +49,7 @@ class NovelDownload(object):
 		#get all the section link save as nlinklist	
 		def GetLink(self,main_link):
 			name,nlinklist = self.getLink(main_link)
+			self.name = name
 			return name,nlinklist
 			
 		def GetSection(self,page_link,page_num,page_contens_dic):
@@ -67,7 +71,7 @@ class NovelDownload(object):
 			with open(name+'.txt',"wb") as filebook:
 				while need_download_num > 0:
 					threads.clear()
-					print('正在下载：%d\t~\t%d\t请稍后' % (downloaded_num,downloaded_num+downloading_num))
+					print('正在下载：%d\t~ %d\t|%d 请稍后...' % (downloaded_num,downloaded_num+downloading_num,nlistlist_len))
 					for i in range(downloading_num):
 						thread = threading.Thread(target = self.GetSection,args=(nlinklist[downloaded_num+i],downloaded_num+i,page_contens_dic))
 						threads.append(thread)
@@ -93,7 +97,9 @@ class NovelDownload(object):
 			if self.args.download != '':
 				print(self.args.download,self.args.thh)
 				self.Download(self.args.download,self.args.thh)
-				print(self.args.download,self.args.thh)
+				if self.args.clean:
+					cn.NovelClean(self.name+'.txt',self.clean[0],self.clean[1])	
+				print("小说下载完成，请尽情享受阅读吧")
 			elif self.args.search !='':
 				self.SearchNovel(self.args.search)
 			elif self.args.search_download != '':
@@ -106,5 +112,5 @@ class NovelDownload(object):
 				
 if __name__=='__main__':
 	pb = pbg.palibery()	
-	dn = NovelDownload(pb.Header,pb.slink, pb.getLink, pb.getSection, args)
+	dn = NovelDownload(pb, args)
 	dn.do_it()

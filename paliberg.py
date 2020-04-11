@@ -23,7 +23,8 @@ class palibery(object):
 		"Host": "www.paliberg.com",
 		"Upgrade-Insecure-Requests":"1",
 		"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36"}
-		self.nlistlink=[]		
+		self.nlistlink=[]	
+		self.clean = [['######'],['由书包网（m.paliberg.com）的书迷们免费提供分享,在线阅读，更多好看的小说请收藏本网站','书包网（m.paliberg.com）希望你喜欢书迷们第一时间分享的','最新章节内容，如果有错误内容和字体欢迎点击章节报错！喜欢请收藏我们官网：m.paliberg.com']]	
 		
 	def slink(self, searchStr):
 		print("slink Have not be completed")
