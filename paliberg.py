@@ -31,13 +31,11 @@ class palibery(object):
 		return None
 	
 	def getLink(self, main_page):
-		print("开始解析下载链接[%s]..." % main_page)
 		try:
 			res=requests.get(main_page,headers=self.Header)
 		except:
 			print("网页获取失败："+main_page)
 			exit(1)
-		print("小说首页链接获取成功[%s]..." % main_page)
 		res.encoding = 'utf-8'
 		soup = BeautifulSoup(res.text,"html.parser")
 		link_cell_set = soup.find_all('dd')
@@ -65,7 +63,6 @@ class palibery(object):
 			print('获取小说名失败')
 			novel_name = 'null'
 			novel_desc = 'null'
-		print("链接获取结束[%s]..." % main_page)
 		return novel_name,self.nlistlink
 		
 	def getSection(self,page_link):

@@ -48,7 +48,9 @@ class NovelDownload(object):
 		
 		#get all the section link save as nlinklist	
 		def GetLink(self,main_link):
+			print("\n  正在解析链接："+main_link)
 			name,nlinklist = self.getLink(main_link)
+			print('\n---- 下载 %s ----\n' % name)
 			self.name = name
 			return name,nlinklist
 			
@@ -95,7 +97,6 @@ class NovelDownload(object):
 				
 		def do_it(self):
 			if self.args.download != '':
-				print(self.args.download,self.args.thh)
 				self.Download(self.args.download,self.args.thh)
 				if self.args.clean:
 					cn.NovelClean(self.name+'.txt',self.clean[0],self.clean[1])	
