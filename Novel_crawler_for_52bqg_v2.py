@@ -8,7 +8,7 @@ import urllib.parse
 import argparse
 import time
 import os
-import clean_novel 
+import src.clean_novel as clean_novel
 
 parser = argparse.ArgumentParser(description="从笔趣网下载小说")
 group = parser.add_mutually_exclusive_group()
@@ -35,7 +35,7 @@ Home='https://www.52bqg.com/book_4468/'
 LinkFromHome=[]
 contents={}
 def GetAllLinkFromHome(home):
-    print("开始解析下载链接...")
+    print("\n正在解析下载链接:%s..." % home)
     try:
         res=requests.get(home,headers=headers)
     except:
@@ -57,7 +57,7 @@ def GetAllLinkFromHome(home):
         except:
             pass
         #print("('%s|%d','%s')" % (link_cell_name,i,link_cell_link))
-    print("解析链接完成！")
+    #print("解析链接完成！")
     return novel_name
 
 
@@ -104,7 +104,7 @@ def Dowloading(novel_name,link_list,thread_num_max):
     if thread_num_max>section_num:
         thread_num=section_num
     #print("section_num=%d" % section_num )
-    fp=open(novel_name+'.txt','wb+')
+    fp=open('download/'+novel_name+'.txt','wb+')
     while download_index<section_num:
         if section_num-download_index < thread_num:
             thread_num = section_num-download_index
@@ -125,8 +125,8 @@ def Dowloading(novel_name,link_list,thread_num_max):
         contents.clear()
         download_index=thread_num+download_index
     fp.close()
-    print("下载完成：尽情享受阅读吧")
-    print("小说保存在："+os.path.abspath('.')+'\\'+novel_name+'.txt\n')
+    print("\n----下载完成：尽情享受阅读吧!!!----")
+    #print("小说保存在：\n"+os.path.abspath('.')+'\\download\\'+novel_name+'.txt\n')
     return
 
 search_res_table=[]
@@ -283,7 +283,7 @@ if __name__=='__main__':
     bqg_key_lines=('	一秒记住【笔趣阁','	www.52bqg.com】，精彩小说无弹窗免费阅读！')
     bgq_key_words='<strong>最新章节全文阅读</strong>'
     if args.search != '' :
-        print("您选择了搜索:"+args.search)
+        #print("您选择了搜索:"+args.search)
         search_key=str(args.search)
         Novel_num = NovelSearch(search_key)
         num_c=showSearchRes(search_res_table)
@@ -306,11 +306,11 @@ if __name__=='__main__':
         if args.clean :
             clean_novel.NovelClean(Novel_name_d+'.txt',clean_novel.bqg_key_lines,clean_novel.bgq_key_words)
     elif args.download != '' :
-        print("您选择了下载:"+args.download)
         if len(args.download)<27 or args.download[0:27] != r"https://www.52bqg.com/book_":
             print("您输入了错误的网址，退出")
             exit(1)
         Novel_name_d = GetAllLinkFromHome(args.download)
+        print("\n-----开始下载《%s》----\n" % Novel_name_d)
         Dowloading(Novel_name_d,LinkFromHome,DOWNLOAD_THREAD_MAX)
         if args.clean :
             clean_novel.NovelClean(Novel_name_d+'.txt',clean_novel.bqg_key_lines,clean_novel.bgq_key_words)
