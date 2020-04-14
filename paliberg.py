@@ -4,6 +4,8 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+import random
+import time
 # 定义一个类，可以下载所有的小说
 # 传入的参数：
 #1. headers [Host different]
@@ -11,7 +13,7 @@ import re
 #3. getLink[方法： 输入【主页面链接】，输出【小说的名字，各个章节的链接列表】]
 #4. getSection --方法：输入【页面链接】，输出【章节名字，章节内容】
 
-
+#http://www.paliberg.com/
 
 class palibery(object):
 	def __init__(self):
@@ -68,8 +70,16 @@ class palibery(object):
 	def getSection(self,page_link):
 		page_name = '无'
 		page_text = '章节内容获取失败'
-		res=requests.get(page_link,headers=self.Header,timeout=10)
-		res.encoding = 'utf-8'
+		retry = 1
+		while retry <= 5 :
+			try:
+				res=requests.get(page_link,headers=self.Header,timeout=20)
+				res.encoding = 'utf-8'
+				break
+			except:
+				time.sleep(int(random.random()*10))
+				print("内容获取失败，第%d次尝试重新获取:%s" % (retry,page_link) )
+				retry +=1
     	#print(response.text)
 		soup=BeautifulSoup(res.text,"html.parser")
 		try:
