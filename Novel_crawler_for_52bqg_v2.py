@@ -313,7 +313,7 @@ if __name__=='__main__':
         if args.clean :
             clean_novel.NovelClean(Novel_name_d+'.txt',clean_novel.bqg_key_lines,clean_novel.bgq_key_words)
     elif args.download != '' :
-        if len(args.download)<27 or args.download[0:27] != r"https://www.52bqg.com/book_":
+        if len(args.download)<27 or  (args.download[0:27] != r"https://www.52bqg.net/book_"):
             print("您输入了错误的网址，退出")
             exit(1)
         Novel_name_d = GetAllLinkFromHome(args.download)

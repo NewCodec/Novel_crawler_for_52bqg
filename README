@@ -27,9 +27,9 @@ Novel_crawler_for_52bqg
 2. 实现搜索，将搜索结果保持在文件中
 3. 根据搜索结果下载指定小说
 4. 目前，下载是单线程的，速度有点慢
-
+5. 这个不再更新，只作为学习资料用
 ---------------------------------------------------------------------
-Novel_crawler_for_52bqg_v2
+Novel_crawler_for_52bqg_v2// 笔趣阁现在30s内只允许同一个ip搜索1次。
 2020.04.04
 Novel_crawler_for_52bqg_v2
 新增多线程实现方式：Novel_crawler_for_52bqg_v2.py
