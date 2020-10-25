@@ -20,13 +20,20 @@ parser.add_argument("-c", "--clean", action = 'store_true',help="from 52bgg,give
 args = parser.parse_args()
 
 headers={
-"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-"Accept-Encoding": "gzip, deflate, br",
-"Accept-Language": "zh-CN,zh;q=0.9",
-"Cookie": "jieqiVisitId=article_articleviews%3D126948; Hm_lvt_cec763d47d2d30d431932e526b7f1218=1585894807; Hm_lpvt_cec763d47d2d30d431932e526b7f1218=1585894807; __gads=ID=22f0cfc6317b1562:T=1585894807:S=ALNI_Mb9AmlzE8sE2AP38xxYmmSCw-sobQ",
-"Host": "www.52bqg.com",
-"Upgrade-Insecure-Requests": "1",
-"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"
+"Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+"Accept-Encoding":"gzip, deflate, br",
+"Accept-Language":"zh-CN,zh;q=0.9",
+"Cache-Control":"max-age=0",
+"Connection":"keep-alive",
+"Cookie":"jieqiVisitTime=jieqiArticlesearchTime%3D1603627508; Hm_lvt_cec763d47d2d30d431932e526b7f1218=1603627510; Hm_lpvt_cec763d47d2d30d431932e526b7f1218=1603627510; Hm_lvt_560d98b9021c1f16853d520c6af538f8=1603627518; Hm_lpvt_560d98b9021c1f16853d520c6af538f8=1603627575",
+"Host":"www.52bqg.net",
+"Sec-Fetch-Dest":"document",
+"Sec-Fetch-Mode":"navigate",
+"Sec-Fetch-Site":"none",
+"Sec-Fetch-User":"?1",
+"Upgrade-Insecure-Requests":"1",
+"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36",
+
 }
 
 DOWNLOAD_THREAD_MAX = args.thh
@@ -140,7 +147,7 @@ def NovelSearch(searchStr):
     #print(searchStr_url)
     search_url = 'https://www.52bqg.com/modules/article/search.php?searchkey='+searchStr_url
     
-    response = requests.get(search_url,headers=headers)
+    response = requests.get(search_url,headers=headers,allow_redirects=False)
     response.encoding = 'gbk'
     soup=BeautifulSoup(response.text,"html.parser")
     Search_res_active = soup.select('.main #centerl #content #main .novelslistss li')
