@@ -1,6 +1,13 @@
 
 【】这是一个下载小说的脚本
+
+2021.03.11：
+doupoxs.py 用于下载斗破小说网的小说
+usage: python doupoxs.py -url <页面链接>
+example: python doupoxs.py http://www.doupoxs.com/nalanwudi/
+
 2020.10.25：现在只有Novel_crawler_for_52bqg_v2.py 这个脚本能用了，
+
 
 
 ！！！本脚本只用来做研究娱乐用途，请不要另做他用

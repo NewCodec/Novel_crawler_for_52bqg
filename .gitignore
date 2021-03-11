@@ -1,3 +1,4 @@
 *.txt
 history_file
 __pycache__/*
+*.pyc
