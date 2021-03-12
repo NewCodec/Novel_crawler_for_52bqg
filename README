@@ -1,58 +1,37 @@
 
 【】这是一个下载小说的脚本
 
-2021.03.11：
-doupoxs.py 用于下载斗破小说网的小说
-usage: python doupoxs.py -url <页面链接>
-example: python doupoxs.py http://www.doupoxs.com/nalanwudi/
-
-2020.10.25：现在只有Novel_crawler_for_52bqg_v2.py 这个脚本能用了，
-
-
+支持“52笔趣阁”、“新笔趣阁”、“宝书网”
 
 ！！！本脚本只用来做研究娱乐用途，请不要另做他用
 ！！！禁止高密度频繁使用，以免影响网站运营。
 ！！！如果有任何问题，请联系jiuchun_0323@163.com
-
-【】目前只支持【】，。
-
-你可以通过help获取使用方法
-python Novel_crawler_for_52bqg.py -h
-python Novel_crawler_for_52bqg_v2.py -h
 
 运行环境依赖
 1. 安装python, 下载网址：https://www.python.org/downloads/
 2. 安装python后，执行下面命令安装库
         pip install requests
         pip install bs4
-3. python Novel_crawler_for_52bqg.py -h 查看使用帮助
+        pip install lxml  #(only for xbiquge.py)
+3. 使用方法
+(1) .52biquge.py 
+52笔趣阁  
+帮助：python 52biquge.py .py  -h
+你需要先在书包网（https://www.52biquge.com/）上找到小说的主页面。
+usage: python doupoxs.py -url <页面链接>
+example: python doupoxs.py https://www.52biquge.com/biquge/8/8480/
 
--------------------------------------------------------------------
-2020.04.04
-Novel_crawler_for_52bqg
-实现的功能
-1. 下载指定小说，需要提供首页链接地址
-2. 实现搜索，将搜索结果保持在文件中
-3. 根据搜索结果下载指定小说
-4. 目前，下载是单线程的，速度有点慢
-5. 这个不再更新，只作为学习资料用
----------------------------------------------------------------------
-Novel_crawler_for_52bqg_v2// 笔趣阁现在30s内只允许同一个ip搜索1次。
-2020.04.04
-Novel_crawler_for_52bqg_v2
-新增多线程实现方式：Novel_crawler_for_52bqg_v2.py
-
-使用方法
-1.帮助：
-    python Novel_crawler_for_52bqg_v2.py -h
-2.搜索：
-    python Novel_crawler_for_52bqg_v2.py -s <关键词>
-    搜索会返回一个下载地址，您可以根据这个下载地址通过下载功能下载
-2.下载
-    python Novel_crawler_for_52bqg_v2.py -d <下载地址>
-3.搜索和下载
-    python Novel_crawler_for_52bqg_v2.py -a <关键词>
-    显示搜索结果，根据提示选择下载小说下载
+(3)doupoxs.py 
+用于下载斗破小说网的小说
+帮助：python doupoxs.py  -h
+你需要先在书包网（http://www.paliberg.com/）上找到小说的主页面。
+usage: python doupoxs.py -url <页面链接>
+example: python doupoxs.py http://www.doupoxs.com/nalanwudi/
+(4) xbiquge.py
+xbiquge.py 是来自网上的一个单线程下载 http://www.xbiquge.la/ 小说的脚本。
+usage: python xbiquge.py
+>> (根据提示输入keyword)
+>>(选择下载项)
 
 注意事项
 1.如果网络差总是下载失败，可以考虑使用单线程的脚本, 或者添加参数 -th 50
@@ -61,8 +40,42 @@ Novel_crawler_for_52bqg_v2
     获取第1792章内容失败:第5次
     获取第1779章内容失败:第5次
 2.如果运行中有任何问题，请联系jiuchun_0323@163.com
+3.Novel_crawler_for_52bqg_v2// 笔趣阁现在30s内只允许同一个ip搜索1次。
 
-------------------------------------------------
+-------------------------------------------------------------------
+
+2021.03.14:
+52bqg这个网站废了。用新的https://www.52biquge.com/
+http://www.paliberg.com/ 这个也废了
+
+2021.03.13:
+xbiquge.py 是来自网上的一个单线程下载 http://www.xbiquge.la/ 小说的脚本。
+usage: python xbiquge.py
+>> (根据提示输入keyword)
+>>(选择下载项)
+
+2021.03.11：
+doupoxs.py 用于下载斗破小说网的小说
+usage: python doupoxs.py -url <页面链接>
+example: python doupoxs.py http://www.doupoxs.com/nalanwudi/
+
+2020.10.25：现在只有Novel_crawler_for_52bqg_v2.py 这个脚本能用了，
+
+2020.04.04
+Novel_crawler_for_52bqg
+实现的功能
+1. 下载指定小说，需要提供首页链接地址
+2. 实现搜索，将搜索结果保持在文件中
+3. 根据搜索结果下载指定小说
+4. 目前，下载是单线程的，速度有点慢
+5. 这个不再更新，只作为学习资料用
+
+Novel_crawler_for_52bqg_v2// 笔趣阁现在30s内只允许同一个ip搜索1次。
+2020.04.04
+Novel_crawler_for_52bqg_v2
+新增多线程实现方式：Novel_crawler_for_52bqg_v2.py
+
+
 Novel_crawler.py 
 2020.04.14
 目前合成了书包网下载，但是没有搜索功能。
